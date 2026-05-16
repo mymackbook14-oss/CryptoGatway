@@ -3,22 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exclusive VIP Access</title>
+    <title>Elite VIP Access | Premium Hub</title>
     <style>
-        /* ================= BASE & COLORFUL BACKGROUND ================= */
+        /* ================= BASE & PREMIUM BACKGROUND ================= */
         * { 
             margin: 0; 
             padding: 0; 
             box-sizing: border-box; 
-            font-family: 'Inter', 'Segoe UI', sans-serif; 
+            font-family: 'Inter', 'Segoe UI', system-ui, sans-serif; 
         }
         
         body { 
-            background-color: #0f172a;
+            background-color: #0b0f19;
             background-image: 
-                radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
-                radial-gradient(at 50% 0%, hsla(225,39%,30%,1) 0, transparent 50%), 
-                radial-gradient(at 100% 0%, hsla(339,49%,30%,1) 0, transparent 50%);
+                radial-gradient(at 0% 0%, rgba(30, 20, 50, 1) 0, transparent 50%), 
+                radial-gradient(at 50% 0%, rgba(20, 40, 70, 1) 0, transparent 50%), 
+                radial-gradient(at 100% 0%, rgba(60, 20, 40, 1) 0, transparent 50%);
             color: #ffffff; 
             display: flex; 
             flex-direction: column;
@@ -27,18 +27,18 @@
             min-height: 100vh; 
             padding: 20px; 
             overflow-x: hidden;
-            position: relative; /* Particles ke liye zaroori hai */
+            position: relative;
         }
 
-        /* ================= PARTICLES (BAARISH) EFFECT ================= */
+        /* ================= RAINING PARTICLES EFFECT ================= */
         .particle {
             position: fixed; 
             top: -10px;
-            background: white; 
+            background: #ffffff; 
             border-radius: 50%;
-            box-shadow: 0 0 10px rgba(255,255,255,0.8);
+            box-shadow: 0 0 12px rgba(255,255,255,0.9);
             pointer-events: none; 
-            z-index: 1; /* Background ke upar par cards ke pichhe */
+            z-index: 1; 
             animation: fall linear forwards;
         }
 
@@ -46,269 +46,182 @@
             to { transform: translateY(105vh); }
         }
 
-        /* ================= MAIN TITLE ================= */
+        /* ================= PROFESSIONAL MAIN TITLE ================= */
         .main-title {
             text-align: center;
             max-width: 850px;
-            margin-bottom: 40px;
-            font-size: 26px;
+            margin-bottom: 50px;
+            font-size: 32px;
             font-weight: 800;
-            line-height: 1.5;
-            background: linear-gradient(to right, #ff758c 0%, #ff7eb3 100%);
+            line-height: 1.4;
+            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             z-index: 10;
+            letter-spacing: -0.5px;
+        }
+        
+        .main-subtitle {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 16px;
+            margin-top: -35px;
+            margin-bottom: 40px;
+            max-width: 600px;
+            z-index: 10;
+            line-height: 1.6;
         }
 
         .wrapper { 
             display: flex; 
-            gap: 30px; 
+            gap: 35px; 
             flex-wrap: wrap; 
             justify-content: center; 
             width: 100%; 
-            max-width: 900px; 
+            max-width: 1000px; 
             z-index: 10;
         }
 
-        /* ================= COLORFUL CARDS ================= */
+        /* ================= PREMIUM GLASS CARDS ================= */
         .card {
-            backdrop-filter: blur(16px); 
-            -webkit-backdrop-filter: blur(16px);
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(20px); 
+            -webkit-backdrop-filter: blur(20px);
             border-radius: 24px; 
-            padding: 40px 30px; 
+            padding: 45px 35px; 
             width: 100%; 
             max-width: 380px; 
             text-align: left;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3); 
-            transition: all 0.3s ease; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4); 
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
             position: relative; 
             overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
-        .card-crypto { 
-            background: linear-gradient(135deg, rgba(236, 72, 153, 0.2), rgba(220, 38, 38, 0.2)); 
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
         }
-        .card-stars { 
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(234, 179, 8, 0.2)); 
-        }
+
+        .card-crypto::before { background: linear-gradient(90deg, #10b981, #34d399); }
+        .card-stars::before { background: linear-gradient(90deg, #3b82f6, #60a5fa); }
 
         .card:hover { 
-            transform: translateY(-5px); 
-            box-shadow: 0 25px 50px rgba(0,0,0,0.5); 
+            transform: translateY(-8px); 
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6); 
+            border-color: rgba(255, 255, 255, 0.15);
         }
 
-        .card h2 { 
-            font-size: 26px; 
-            margin-bottom: 12px; 
-            font-weight: 800; 
-            color: #fff; 
-        }
-        
-        .card p { 
-            color: #e2e8f0; 
-            font-size: 15px; 
-            margin-bottom: 35px; 
-            line-height: 1.6; 
-            font-weight: 500; 
-        }
+        .card h2 { font-size: 26px; margin-bottom: 12px; font-weight: 800; color: #ffffff; }
+        .card p { color: #94a3b8; font-size: 15px; margin-bottom: 35px; line-height: 1.7; }
 
-        /* ================= BUTTONS ================= */
+        /* ================= ELEGANT BUTTONS ================= */
         .btn {
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            width: 100%; 
-            padding: 16px; 
-            border-radius: 16px; 
-            font-size: 16px; 
-            font-weight: 800; 
-            cursor: pointer; 
-            border: none; 
-            color: white; 
-            transition: all 0.3s ease; 
-            text-decoration: none; 
-            text-transform: uppercase;
+            display: flex; justify-content: center; align-items: center; width: 100%; padding: 16px; 
+            border-radius: 14px; font-size: 16px; font-weight: 700; cursor: pointer; border: none; 
+            color: white; transition: all 0.3s ease; text-decoration: none; letter-spacing: 0.5px;
         }
 
-        .btn-crypto { 
-            background: linear-gradient(90deg, #ec4899, #f43f5e); 
-            box-shadow: 0 10px 20px rgba(236, 72, 153, 0.3); 
-        }
-        .btn-crypto:hover { 
-            background: linear-gradient(90deg, #db2777, #e11d48); 
-            transform: scale(1.02); 
-        }
+        .btn-crypto { background: linear-gradient(135deg, #059669 0%, #10b981 100%); box-shadow: 0 10px 20px rgba(16, 185, 129, 0.25); }
+        .btn-crypto:hover { background: linear-gradient(135deg, #047857 0%, #059669 100%); transform: scale(1.03); box-shadow: 0 15px 25px rgba(16, 185, 129, 0.4); }
         
-        .btn-stars { 
-            background: linear-gradient(90deg, #3b82f6, #eab308); 
-            box-shadow: 0 10px 20px rgba(234, 179, 8, 0.2); 
-        }
-        .btn-stars:hover { 
-            background: linear-gradient(90deg, #2563eb, #ca8a04); 
-            transform: scale(1.02); 
-        }
+        .btn-stars { background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%); box-shadow: 0 10px 20px rgba(59, 130, 246, 0.25); }
+        .btn-stars:hover { background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%); transform: scale(1.03); box-shadow: 0 15px 25px rgba(59, 130, 246, 0.4); }
 
         /* ================= MOBILE OPTIMIZATION ================= */
         @media (max-width: 768px) { 
-            .main-title { 
-                font-size: 20px; 
-                margin-bottom: 25px; 
-                padding: 0 10px; 
-            }
+            .main-title { font-size: 24px; margin-bottom: 30px; padding: 0 15px; }
+            .main-subtitle { font-size: 14px; margin-top: -20px; padding: 0 20px; }
             .wrapper { gap: 20px; } 
-            .card { 
-                padding: 25px 20px; 
-                max-width: 92%; 
-                margin: 0 auto; 
-                border-radius: 20px; 
-            }
+            .card { padding: 30px 25px; max-width: 90%; margin: 0 auto; border-radius: 20px; }
             .card h2 { font-size: 22px; }
             .card p { font-size: 14px; margin-bottom: 25px; }
-            .btn { padding: 14px; font-size: 14px; }
+            .btn { padding: 15px; font-size: 15px; }
         }
 
-        /* ================= POPUP (MODAL) STYLES ================= */
+        /* ================= MODAL (POPUP) & COLORFUL DETAILS ================= */
         .modal-overlay { 
-            position: fixed; 
-            top: 0; left: 0; width: 100%; height: 100%; 
-            background: rgba(0, 0, 0, 0.8); 
-            backdrop-filter: blur(10px); 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            opacity: 0; 
-            pointer-events: none; 
-            transition: opacity 0.3s ease; 
-            z-index: 100; 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(12px); 
+            display: flex; justify-content: center; align-items: center; 
+            opacity: 0; pointer-events: none; transition: opacity 0.3s ease; z-index: 100; 
         }
         
-        .modal-overlay.active { 
-            opacity: 1; 
-            pointer-events: auto; 
-        }
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
         
         .modal-content { 
-            background: #1e293b; 
-            border: 1px solid rgba(255, 255, 255, 0.1); 
-            border-radius: 24px; 
-            padding: 30px; 
-            width: 90%; 
-            max-width: 450px; 
-            transform: scale(0.95); 
-            transition: all 0.3s ease; 
-            box-shadow: 0 30px 60px rgba(0,0,0,0.6); 
+            background: #0f172a; border: 1px solid rgba(255, 255, 255, 0.1); 
+            border-radius: 24px; padding: 35px; width: 90%; max-width: 480px; 
+            transform: scale(0.95); transition: all 0.3s ease; 
+            box-shadow: 0 40px 80px rgba(0,0,0,0.8); 
         }
         
-        .modal-overlay.active .modal-content { 
-            transform: scale(1); 
-        }
+        .modal-overlay.active .modal-content { transform: scale(1); }
         
-        .modal-header { 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            margin-bottom: 25px; 
-        }
-        
-        .modal-header h3 { 
-            font-size: 22px; 
-            font-weight: 700; 
-            color: #fff; 
-        }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .modal-header h3 { font-size: 24px; font-weight: 800; color: #ffffff; }
         
         .close-btn { 
-            background: none; 
-            border: none; 
-            color: #94a3b8; 
-            font-size: 28px; 
-            cursor: pointer; 
-            transition: 0.2s; 
+            background: rgba(255, 255, 255, 0.05); border: none; color: #94a3b8; 
+            font-size: 20px; width: 36px; height: 36px; border-radius: 50%; 
+            cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center;
         }
+        .close-btn:hover { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
         
-        .close-btn:hover { 
-            color: #ef4444; 
-        }
-        
+        /* Interactive Plan Buttons */
         .plan-btn { 
-            background: rgba(255, 255, 255, 0.05); 
-            border: 1px solid rgba(255, 255, 255, 0.1); 
-            border-radius: 16px; 
-            padding: 15px 20px; 
-            margin-bottom: 12px; 
-            width: 100%; 
-            text-align: left; 
-            cursor: pointer; 
-            transition: 0.3s; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            color: white; 
+            background: rgba(30, 41, 59, 0.5); border: 1px solid rgba(255, 255, 255, 0.05); 
+            border-radius: 16px; padding: 18px 20px; margin-bottom: 12px; width: 100%; 
+            text-align: left; cursor: pointer; transition: all 0.3s ease; 
+            display: flex; justify-content: space-between; align-items: center; color: white; 
+            position: relative; overflow: hidden;
         }
         
-        .plan-btn:hover { 
-            background: rgba(236, 72, 153, 0.1); 
-            border-color: #ec4899; 
-        }
+        /* Specific Colors for each Tier */
+        .plan-starter:hover { border-color: #3b82f6; background: rgba(59, 130, 246, 0.1); transform: translateX(5px); }
+        .plan-pro:hover { border-color: #a855f7; background: rgba(168, 85, 247, 0.1); transform: translateX(5px); }
+        .plan-elite:hover { border-color: #ef4444; background: rgba(239, 68, 68, 0.1); transform: translateX(5px); }
+        .plan-lifetime:hover { border-color: #f59e0b; background: rgba(245, 158, 11, 0.1); transform: translateX(5px); }
         
-        .plan-info h4 { 
-            font-size: 16px; 
-            margin-bottom: 4px; 
-            color: #fff; 
-        }
+        .plan-info { width: 75%; }
+        .plan-info h4 { font-size: 18px; margin-bottom: 6px; font-weight: 800; }
         
-        .plan-info p { 
-            font-size: 12px; 
-            color: #94a3b8; 
-        }
+        /* Colors for Titles */
+        .plan-starter h4 { color: #60a5fa; }
+        .plan-pro h4 { color: #c084fc; }
+        .plan-elite h4 { color: #f87171; }
+        .plan-lifetime h4 { color: #fbbf24; }
+
+        .plan-info p { font-size: 13.5px; color: #cbd5e1; line-height: 1.4; font-weight: 500; }
         
-        .plan-price { 
-            font-size: 20px; 
-            font-weight: 700; 
-            color: #ec4899; 
-        }
+        .plan-price { font-size: 22px; font-weight: 800; color: #ffffff; }
         
-        .loader { 
-            display: none; 
-            width: 20px; 
-            height: 20px; 
-            border: 3px solid rgba(236, 72, 153, 0.3); 
-            border-radius: 50%; 
-            border-top-color: #ec4899; 
-            animation: spin 0.8s linear infinite; 
-        }
+        .loader { display: none; width: 22px; height: 22px; border: 3px solid rgba(255, 255, 255, 0.3); border-radius: 50%; border-top-color: #ffffff; animation: spin 0.8s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
         
-        @keyframes spin { 
-            to { transform: rotate(360deg); } 
-        }
-        
-        #error-box { 
-            margin-top: 15px; 
-            padding: 12px; 
-            border-radius: 10px; 
-            font-size: 13px; 
-            display: none; 
-            background: rgba(239, 68, 68, 0.1); 
-            border: 1px solid rgba(239, 68, 68, 0.3); 
-            color: #fca5a5; 
-            text-align: center; 
-        }
+        #error-box { margin-top: 15px; padding: 12px; border-radius: 10px; font-size: 14px; display: none; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); color: #fca5a5; text-align: center; font-weight: 600; }
     </style>
 </head>
 <body>
 
-    <h1 class="main-title">Yaha aap buy kr skte h telegram group jaha pr bahut sara videos and photos honge aur hmare saath jude rhe</h1>
+    <h1 class="main-title">Unlock Premium VIP Access</h1>
+    <p class="main-subtitle">Gain instant entry to exclusive videos, high-quality photos, and our private community hub. Choose your preferred secure payment method below.</p>
 
     <div class="wrapper">
         <div class="card card-crypto">
-            <h2>VIP Telegram group</h2>
-            <p>VIP Telegram group Crypto se buy yaha kro aur payment krte hee Ai aapko link de dega direct safe and secure.</p>
+            <h2>Crypto Gateway</h2>
+            <p>Purchase your VIP pass using Cryptocurrency. Our automated AI system will securely generate your direct invite link immediately after checkout.</p>
             <button class="btn btn-crypto" onclick="openModal()">Pay With Crypto</button>
         </div>
 
         <div class="card card-stars">
-            <h2>Pay With Telegram Stars</h2>
-            <p>Yaha pr jake aap telegram stars se payment krke group buy kr skte h.</p>
+            <h2>Telegram Stars</h2>
+            <p>Purchase group access seamlessly using Telegram Stars. Fast, native, and fully integrated with your Telegram app for instant entry.</p>
             <a href="https://t.me/YOUR_STARS_BOT_LINK" target="_blank" class="btn btn-stars">Pay With Stars</a>
         </div>
     </div>
@@ -320,37 +233,37 @@
                 <button class="close-btn" onclick="closeModal()">×</button>
             </div>
 
-            <button class="plan-btn" onclick="startPayment('30', 'Starter VIP', this)">
+            <button class="plan-btn plan-starter" onclick="startPayment('30', 'Starter VIP', this)">
                 <div class="plan-info">
                     <h4>Starter Pass</h4>
-                    <p>1 Month Access</p>
+                    <p>Get instant access to a massive collection of <strong>1200+ exclusive videos</strong> and <strong>138+ premium photos</strong>.</p>
                 </div>
                 <div class="plan-price">$30</div>
                 <div class="loader"></div>
             </button>
 
-            <button class="plan-btn" onclick="startPayment('40', 'Pro VIP', this)">
+            <button class="plan-btn plan-pro" onclick="startPayment('40', 'Pro VIP', this)">
                 <div class="plan-info">
                     <h4>Pro Pass</h4>
-                    <p>3 Months Access</p>
+                    <p>Upgrade your experience with <strong>1800+ exclusive videos</strong> and <strong>230+ premium photos</strong>.</p>
                 </div>
                 <div class="plan-price">$40</div>
                 <div class="loader"></div>
             </button>
 
-            <button class="plan-btn" onclick="startPayment('50', 'Elite VIP', this)">
+            <button class="plan-btn plan-elite" onclick="startPayment('50', 'Elite VIP', this)">
                 <div class="plan-info">
                     <h4>Elite Pass</h4>
-                    <p>6 Months Access</p>
+                    <p>Dive deep into our highest-tier library featuring <strong>2200+ exclusive videos</strong> and <strong>350+ premium photos</strong>.</p>
                 </div>
                 <div class="plan-price">$50</div>
                 <div class="loader"></div>
             </button>
 
-            <button class="plan-btn" onclick="startPayment('70', 'Lifetime VIP', this)">
+            <button class="plan-btn plan-lifetime" onclick="startPayment('70', 'Lifetime VIP', this)">
                 <div class="plan-info">
                     <h4>Lifetime Pass</h4>
-                    <p>Infinite Access</p>
+                    <p>Ultimate permanent access. Includes a dedicated <strong>500 GB+ Mega Cloud link</strong> with all current and future updates.</p>
                 </div>
                 <div class="plan-price">$70</div>
                 <div class="loader"></div>
@@ -361,32 +274,26 @@
     </div>
 
     <script>
-        // ================= RAINING PARTICLES LOGIC (BAARISH) =================
+        // ================= RAINING PARTICLES LOGIC =================
         function createParticle() {
             const particle = document.createElement('div');
             particle.classList.add('particle');
             
-            // Random size, position, and speed
-            const size = Math.random() * 4 + 1; // 1px se 5px
+            const size = Math.random() * 4 + 1; 
             particle.style.width = `${size}px`;
             particle.style.height = `${size}px`;
             particle.style.left = `${Math.random() * 100}vw`;
-            particle.style.animationDuration = `${Math.random() * 3 + 4}s`; // 4s se 7s
-            particle.style.opacity = Math.random() * 0.6 + 0.2; 
+            particle.style.animationDuration = `${Math.random() * 3 + 4}s`; 
+            particle.style.opacity = Math.random() * 0.4 + 0.1; 
             
             document.body.appendChild(particle);
             
-            // Particle jab niche gir jaye tab usko hata do
-            setTimeout(() => { 
-                particle.remove(); 
-            }, 7000);
+            setTimeout(() => { particle.remove(); }, 7000);
         }
         
-        // Har 200 milliseconds mein ek naya particle (baarish ki boond) girega
         setInterval(createParticle, 200);
 
-
-        // ================= MODAL & PAYMENT LOGIC =================
+        // ================= MODAL & SECURE PAYMENT LOGIC =================
         const modal = document.getElementById('paymentModal');
         const errorBox = document.getElementById('error-box');
         let isProcessing = false;
@@ -397,12 +304,10 @@
         }
         
         function closeModal() { 
-            if(!isProcessing) {
-                modal.classList.remove('active'); 
-            }
+            if(!isProcessing) modal.classList.remove('active'); 
         }
 
-        // Fix for Back Button loading issue
+        // Back Button fix to prevent infinite loading loop
         window.addEventListener('pageshow', function(event) {
             if (event.persisted || isProcessing) {
                 isProcessing = false;
@@ -417,9 +322,17 @@
             }
         });
 
-        // Backend API Calling Function
+        // Exact untouched logic for Plisio API connection with Frontend Anti-Tamper Check
         async function startPayment(amount, planName, btnElement) {
             if(isProcessing) return; 
+            
+            // SECURITY ADDITION: Frontend tampered amount validation
+            const validAmounts = ['30', '40', '50', '70'];
+            if (!validAmounts.includes(amount)) {
+                showError("Security Alert: Invalid or tampered amount detected.");
+                return;
+            }
+
             isProcessing = true;
 
             const allBtns = document.querySelectorAll('.plan-btn');
@@ -428,13 +341,11 @@
             
             errorBox.style.display = "none";
             
-            // Sab buttons ko halka (dim) karo
             allBtns.forEach(btn => { 
                 btn.style.opacity = '0.5'; 
                 btn.style.pointerEvents = 'none'; 
             }); 
             
-            // Jo select hua uspe loader dikhao
             btnElement.style.opacity = '1'; 
             priceText.style.display = 'none'; 
             loader.style.display = 'block';
@@ -442,11 +353,12 @@
             const paymentData = { 
                 amount: amount, 
                 currency: 'USDT', 
-                email: 'member@premium.com', 
+                email: 'vip_member@premium.com', // Track internal orders
                 planName: planName 
             };
 
             try {
+                // Connecting to the secure Netlify Serverless Function
                 const response = await fetch('/.netlify/functions/create-invoice', {
                     method: 'POST', 
                     headers: { 'Content-Type': 'application/json' }, 
@@ -458,22 +370,20 @@
                 if (data.success && data.checkoutUrl) {
                     window.location.href = data.checkoutUrl; 
                 } else { 
-                    showError("Gateway Error: " + (data.message || "Failed to initialize.")); 
+                    showError("Gateway Error: " + (data.message || "Failed to initialize securely.")); 
                     resetButton(allBtns, loader, priceText); 
                 }
             } catch (error) {
-                showError("Network Timeout: Check your internet connection."); 
+                showError("Network Error: Please check your internet connection."); 
                 resetButton(allBtns, loader, priceText);
             }
         }
 
-        // Error Dikhane ka function
         function showError(msg) { 
             errorBox.style.display = "block"; 
             errorBox.innerText = msg; 
         }
         
-        // Button wapas normal karne ka function
         function resetButton(allBtns, loader, priceText) {
             isProcessing = false;
             allBtns.forEach(btn => { 
