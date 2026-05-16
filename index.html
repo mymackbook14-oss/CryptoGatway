@@ -1,43 +1,223 @@
-exports.handler = async (event) => {
-  if (event.httpMethod === 'OPTIONS') return { statusCode: 200, headers: { 'Access-Control-Allow-Origin': '*' }, body: '' };
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIP Access Gateway</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
+        
+        body { 
+            background: #050505;
+            background-image: radial-gradient(circle at 15% 50%, rgba(20, 255, 150, 0.08), transparent 25%), radial-gradient(circle at 85% 30%, rgba(50, 150, 255, 0.08), transparent 25%);
+            color: #ffffff; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; overflow-x: hidden;
+        }
 
-  try {
-    // Frontend se bheja gaya data yahan aayega, ab isme planName bhi hai
-    const { amount, currency, email, planName } = JSON.parse(event.body);
-    
-    // 👇 1. YAHAN APNI ASLI PLISIO SECRET KEY DAALEIN 👇
-    const SECRET_KEY = "CNTfhauOzL-egxSHHxpxalKLCxVjukCu8b4YToxK-PRDe1i7ZD9e_71Y_ukREetE";
+        .wrapper { display: flex; gap: 40px; flex-wrap: wrap; justify-content: center; width: 100%; max-width: 900px; z-index: 10; }
 
-    // 👇 2. YAHAN APNI NETLIFY WEBSITE KA ASLI URL DAALEIN 👇
-    const SITE_URL = "https://your-website-name.netlify.app"; 
-    
-    const callbackUrl = encodeURIComponent(`${SITE_URL}/.netlify/functions/plisioWebhook`);
-    const orderNumber = encodeURIComponent(`USER_${Date.now()}`);
-    
-    // Jo plan user ne select kiya hai, wahi naam aayega, warna default "VIP Pass"
-    const orderName = encodeURIComponent(planName || "VIP Pass"); 
+        .card {
+            background: rgba(15, 20, 30, 0.6); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 24px; padding: 50px 35px; width: 100%; max-width: 380px; text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255,255,255,0.05); transition: all 0.4s ease; position: relative;
+        }
 
-    // URL mein exact amount aur plan name bheja ja raha hai
-    const apiUrl = `https://api.plisio.net/api/v1/invoices/new?source_currency=USD&source_amount=${amount}&order_number=${orderNumber}&order_name=${orderName}&currency=${currency}&callback_url=${callbackUrl}&api_key=${SECRET_KEY}`;
+        .card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; }
+        .card:nth-child(1)::before { background: linear-gradient(90deg, #00f2fe, #4facfe); }
+        .card:nth-child(2)::before { background: linear-gradient(90deg, #ff0844, #ffb199); }
 
-    const response = await fetch(apiUrl);
-    const data = await response.json();
+        .card:hover { transform: translateY(-10px); box-shadow: 0 20px 50px rgba(0,0,0,0.7); }
 
-    if (data && data.status === 'success') {
-      return { 
-        statusCode: 200, 
-        headers: { 'Access-Control-Allow-Origin': '*' }, 
-        body: JSON.stringify({ success: true, checkoutUrl: data.data.invoice_url }) 
-      };
-    } else {
-      const errorMessage = data?.data?.message || JSON.stringify(data.data) || "Plisio error: Amount might be too low or invalid.";
-      return { 
-        statusCode: 400, 
-        headers: { 'Access-Control-Allow-Origin': '*' }, 
-        body: JSON.stringify({ success: false, message: errorMessage }) 
-      };
-    }
-  } catch (error) {
-    return { statusCode: 500, headers: { 'Access-Control-Allow-Origin': '*' }, body: JSON.stringify({ success: false, message: "System error: " + error.message }) };
-  }
-};
+        .card h2 { font-size: 28px; margin-bottom: 15px; font-weight: 800; background: linear-gradient(to right, #fff, #b2bac2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .card p { color: #8e9aaf; font-size: 16px; margin-bottom: 40px; line-height: 1.7; }
+
+        .btn {
+            display: flex; justify-content: center; align-items: center; width: 100%; padding: 18px; border-radius: 14px; font-size: 17px; font-weight: 700; cursor: pointer; border: none; color: white; transition: all 0.3s ease; text-transform: uppercase; letter-spacing: 1px;
+        }
+
+        .btn-crypto { background: linear-gradient(45deg, #0ba360, #3cba92); box-shadow: 0 10px 25px rgba(11, 163, 96, 0.4); }
+        .btn-crypto:hover { box-shadow: 0 15px 35px rgba(11, 163, 96, 0.6); transform: scale(1.05); }
+        
+        .btn-telegram { background: linear-gradient(45deg, #00c6ff, #0072ff); box-shadow: 0 10px 25px rgba(0, 114, 255, 0.4); text-decoration: none; }
+        .btn-telegram:hover { box-shadow: 0 15px 35px rgba(0, 114, 255, 0.6); transform: scale(1.05); }
+
+        /* ================= POPUP (MODAL) STYLING ================= */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(8px);
+            display: flex; justify-content: center; align-items: center;
+            opacity: 0; pointer-events: none; transition: opacity 0.3s ease; z-index: 100;
+        }
+
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
+
+        .modal-content {
+            background: rgba(15, 22, 35, 0.95); border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px; padding: 30px; width: 90%; max-width: 450px;
+            transform: translateY(30px); transition: transform 0.3s ease;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.8); position: relative;
+        }
+
+        .modal-overlay.active .modal-content { transform: translateY(0); }
+
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .modal-header h3 { font-size: 22px; font-weight: 700; color: #fff; }
+        .close-btn { background: none; border: none; color: #8e9aaf; font-size: 28px; cursor: pointer; transition: 0.3s; }
+        .close-btn:hover { color: #ff4b4b; }
+
+        /* Plan Buttons */
+        .plan-btn {
+            background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px; padding: 20px; margin-bottom: 15px; width: 100%; text-align: left;
+            cursor: pointer; transition: all 0.3s ease; display: flex; justify-content: space-between; align-items: center; color: white;
+        }
+
+        .plan-btn:hover { background: rgba(11, 163, 96, 0.1); border-color: #0ba360; transform: translateX(5px); }
+        .plan-info h4 { font-size: 18px; margin-bottom: 5px; color: #fff; }
+        .plan-info p { font-size: 13px; color: #8e9aaf; }
+        .plan-price { font-size: 22px; font-weight: 800; color: #0ba360; }
+
+        .loader { display: none; width: 18px; height: 18px; border: 3px solid rgba(255,255,255,0.3); border-radius: 50%; border-top-color: #fff; animation: spin 0.8s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        
+        #error-box { margin-top: 15px; padding: 12px; border-radius: 10px; font-size: 13px; display: none; background: rgba(255, 75, 75, 0.1); border: 1px solid rgba(255, 75, 75, 0.5); color: #ff6b6b; text-align: center; }
+
+        @media (max-width: 768px) { .wrapper { gap: 25px; } .card { padding: 40px 25px; } }
+    </style>
+</head>
+<body>
+
+    <div class="wrapper">
+        <div class="card">
+            <h2>Go Premium</h2>
+            <p>Unlock elite features immediately. Pay securely via Plisio using your favorite cryptocurrency.</p>
+            <button class="btn btn-crypto" onclick="openModal()">Pay With Crypto</button>
+        </div>
+
+        <div class="card">
+            <h2>Join Insider</h2>
+            <p>Connect with top-tier members. Get real-time updates and expert support directly in Telegram.</p>
+            <a href="https://t.me/YOUR_GROUP_LINK" target="_blank" class="btn btn-telegram">Open Telegram</a>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="paymentModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Select VIP Pass</h3>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+
+            <button class="plan-btn" onclick="startPayment('30', '30$ Starter VIP Pass', this)">
+                <div class="plan-info">
+                    <h4>Starter VIP</h4>
+                    <p>Basic access to premium groups and automation tools.</p>
+                </div>
+                <div class="plan-price">$30</div>
+                <div class="loader"></div>
+            </button>
+
+            <button class="plan-btn" onclick="startPayment('40', '40$ Pro VIP Pass', this)">
+                <div class="plan-info">
+                    <h4>Pro VIP</h4>
+                    <p>Advanced features, fast support, and exclusive content.</p>
+                </div>
+                <div class="plan-price">$40</div>
+                <div class="loader"></div>
+            </button>
+
+            <button class="plan-btn" onclick="startPayment('50', '50$ Elite VIP Pass', this)">
+                <div class="plan-info">
+                    <h4>Elite VIP</h4>
+                    <p>Priority access, custom setups, and high-tier resources.</p>
+                </div>
+                <div class="plan-price">$50</div>
+                <div class="loader"></div>
+            </button>
+
+            <button class="plan-btn" onclick="startPayment('70', '70$ Lifetime VIP Pass', this)">
+                <div class="plan-info">
+                    <h4>Lifetime VIP</h4>
+                    <p>Unlimited lifetime access to all current & future features.</p>
+                </div>
+                <div class="plan-price">$70</div>
+                <div class="loader"></div>
+            </button>
+
+            <div id="error-box"></div>
+        </div>
+    </div>
+
+    <script>
+        const modal = document.getElementById('paymentModal');
+        const errorBox = document.getElementById('error-box');
+        let isProcessing = false; // Double click rokne ke liye
+
+        function openModal() {
+            modal.classList.add('active');
+            errorBox.style.display = 'none';
+        }
+
+        function closeModal() {
+            if(!isProcessing) {
+                modal.classList.remove('active');
+            }
+        }
+
+        async function startPayment(amount, planName, btnElement) {
+            if(isProcessing) return; // Agar pehle se load ho raha hai toh ruk jaye
+            isProcessing = true;
+
+            const allBtns = document.querySelectorAll('.plan-btn');
+            const loader = btnElement.querySelector('.loader');
+            const priceText = btnElement.querySelector('.plan-price');
+            
+            // UI Loading state update
+            errorBox.style.display = "none";
+            allBtns.forEach(btn => btn.style.opacity = '0.5'); // Baki buttons dim karein
+            btnElement.style.opacity = '1';
+            priceText.style.display = 'none';
+            loader.style.display = 'block';
+
+            // Backend ko bhejne ke liye Data
+            const paymentData = {
+                amount: amount, 
+                currency: 'USDT', 
+                email: 'member@premium.com',
+                planName: planName // Backend mein ab ye naam jayega
+            };
+
+            try {
+                const response = await fetch('/.netlify/functions/create-invoice', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(paymentData)
+                });
+                
+                const data = await response.json();
+
+                if (data.success && data.checkoutUrl) {
+                    window.location.href = data.checkoutUrl; // Redirect to payment
+                } else {
+                    showError("Error: " + (data.message || "Failed to connect to Gateway."));
+                    resetButton(allBtns, loader, priceText);
+                }
+            } catch (error) {
+                showError("Network Error. Please check your connection.");
+                resetButton(allBtns, loader, priceText);
+            }
+        }
+
+        function showError(msg) {
+            errorBox.style.display = "block";
+            errorBox.innerText = msg;
+        }
+
+        function resetButton(allBtns, loader, priceText) {
+            isProcessing = false;
+            allBtns.forEach(btn => btn.style.opacity = '1');
+            loader.style.display = 'none';
+            priceText.style.display = 'block';
+        }
+    </script>
+</body>
+</html>
