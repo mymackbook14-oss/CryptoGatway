@@ -3,80 +3,177 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Premium Membership</title>
+    <title>VIP Access Gateway</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        /* Modern Reset */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
         
-        body { background: #0b0f19; color: #fff; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
-        
-        .wrapper { display: flex; gap: 40px; flex-wrap: wrap; justify-content: center; padding: 20px; }
-        
+        /* Deep Space Animated Background */
+        body { 
+            background: #050505;
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(20, 255, 150, 0.08), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(50, 150, 255, 0.08), transparent 25%);
+            color: #ffffff; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            min-height: 100vh;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        .wrapper { 
+            display: flex; 
+            gap: 40px; 
+            flex-wrap: wrap; 
+            justify-content: center; 
+            width: 100%;
+            max-width: 900px;
+            z-index: 10;
+        }
+
+        /* 3D Glassmorphism Cards */
         .card {
-            background: #151b2b;
-            border: 1px solid #2a3441;
-            border-radius: 16px;
-            padding: 40px 30px;
-            width: 340px;
+            background: rgba(15, 20, 30, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 24px;
+            padding: 50px 35px;
+            width: 100%;
+            max-width: 380px;
             text-align: center;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255,255,255,0.05);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
         }
-        
-        .card h2 { font-size: 22px; margin-bottom: 15px; font-weight: 600; }
-        .card p { color: #8b949e; font-size: 15px; margin-bottom: 30px; line-height: 1.6; }
-        
+
+        /* Glowing Accent Line at Top of Card */
+        .card::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px;
+        }
+        .card:nth-child(1)::before { background: linear-gradient(90deg, #00f2fe, #4facfe); }
+        .card:nth-child(2)::before { background: linear-gradient(90deg, #ff0844, #ffb199); }
+
+        .card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.7), inset 0 0 0 1px rgba(255,255,255,0.1);
+        }
+
+        /* Typography */
+        .card h2 { 
+            font-size: 28px; margin-bottom: 15px; font-weight: 800; letter-spacing: 1px;
+            background: linear-gradient(to right, #fff, #b2bac2); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .card p { color: #8e9aaf; font-size: 16px; margin-bottom: 40px; line-height: 1.7; }
+
+        /* Neon Glowing Buttons */
         .btn {
-            display: block; width: 100%; padding: 14px; border-radius: 8px; font-size: 16px; font-weight: 600;
-            cursor: pointer; border: none; text-decoration: none; color: white; transition: 0.3s;
+            display: flex; justify-content: center; align-items: center; width: 100%; padding: 18px; 
+            border-radius: 14px; font-size: 17px; font-weight: 700; cursor: pointer; 
+            border: none; text-decoration: none; color: white; transition: all 0.3s ease;
+            text-transform: uppercase; letter-spacing: 1px;
+            position: relative; z-index: 1;
         }
+
+        .btn-crypto { 
+            background: linear-gradient(45deg, #0ba360, #3cba92); 
+            box-shadow: 0 10px 25px rgba(11, 163, 96, 0.4); 
+        }
+        .btn-crypto:hover { box-shadow: 0 15px 35px rgba(11, 163, 96, 0.6); }
+
+        .btn-telegram { 
+            background: linear-gradient(45deg, #00c6ff, #0072ff); 
+            box-shadow: 0 10px 25px rgba(0, 114, 255, 0.4); 
+        }
+        .btn-telegram:hover { box-shadow: 0 15px 35px rgba(0, 114, 255, 0.6); }
+
+        /* Loader inside button */
+        .loader { display: none; width: 22px; height: 22px; border: 3px solid rgba(255,255,255,0.3); border-radius: 50%; border-top-color: #fff; animation: spin 0.8s linear infinite; margin-right: 12px; }
+        @keyframes spin { to { transform: rotate(360deg); } }
         
-        .btn-crypto { background: #10b981; }
-        .btn-crypto:hover { background: #059669; }
-        
-        .btn-telegram { background: #3b82f6; }
-        .btn-telegram:hover { background: #2563eb; }
-        
-        #status { margin-top: 15px; font-size: 14px; color: #f59e0b; display: none; }
+        #error-box { margin-top: 20px; padding: 12px; border-radius: 10px; font-size: 14px; display: none; background: rgba(255, 75, 75, 0.1); border: 1px solid rgba(255, 75, 75, 0.5); color: #ff6b6b; text-align: left; }
+
+        /* Mobile Adjustments */
+        @media (max-width: 768px) {
+            .wrapper { gap: 25px; padding: 10px; }
+            .card { padding: 40px 25px; }
+        }
     </style>
 </head>
 <body>
 
     <div class="wrapper">
         <div class="card">
-            <h2>Buy Premium</h2>
-            <p>Pay securely via Plisio. We accept USDT, TON, and other major cryptocurrencies.</p>
-            <button class="btn btn-crypto" id="payBtn" onclick="startPayment()">Pay with Crypto</button>
-            <p id="status">Generating Invoice Please wait...</p>
+            <h2>Go Premium</h2>
+            <p>Unlock elite features immediately. Pay securely via Plisio using your favorite cryptocurrency.</p>
+            <button class="btn btn-crypto" id="payBtn" onclick="startPayment()">
+                <div class="loader" id="spinner"></div>
+                <span id="btnText">Pay With Crypto</span>
+            </button>
+            <div id="error-box"></div>
         </div>
 
         <div class="card">
-            <h2>Join Community</h2>
-            <p>Already a member or want to connect? Join our exclusive Telegram group.</p>
-            <a href="https://t.me/YOUR_GROUP_LINK" target="_blank" class="btn btn-telegram">Join Telegram</a>
+            <h2>Join Insider</h2>
+            <p>Connect with top-tier members. Get real-time updates and expert support directly in Telegram.</p>
+            <a href="https://t.me/YOUR_GROUP_LINK" target="_blank" class="btn btn-telegram">Open Telegram</a>
         </div>
     </div>
 
     <script>
         async function startPayment() {
             const btn = document.getElementById('payBtn');
-            const status = document.getElementById('status');
+            const spinner = document.getElementById('spinner');
+            const btnText = document.getElementById('btnText');
+            const errorBox = document.getElementById('error-box');
             
+            // Button Loading State
             btn.disabled = true;
-            status.style.display = "block";
+            spinner.style.display = "inline-block";
+            btnText.innerText = "Initializing...";
+            errorBox.style.display = "none";
+
+            // Payment Configuration (Aap amount yahan change kar sakte hain)
+            const paymentData = {
+                amount: '15', // Change this to your desired dollar amount
+                currency: 'USDT', // Default crypto selected
+                email: 'member@premium.com' // Order tracking ke liye identifier
+            };
 
             try {
-                const response = await fetch('/.netlify/functions/create-invoice');
+                // Backend ko POST request bhej rahe hain with data
+                const response = await fetch('/.netlify/functions/create-invoice', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(paymentData)
+                });
+                
                 const data = await response.json();
 
-                if (data.invoiceUrl) {
-                    window.location.href = data.invoiceUrl; 
+                if (data.success && data.checkoutUrl) {
+                    // Successful! Redirect to Plisio Gateway
+                    window.location.href = data.checkoutUrl; 
                 } else {
-                    status.innerText = "Error! Try again.";
-                    status.style.color = "red";
-                    btn.disabled = false;
+                    showError("Error: " + (data.message || "Failed to generate checkout link."));
+                    resetButton();
                 }
             } catch (error) {
-                status.innerText = "Payment gateway failed.";
+                showError("Network Error. Please check your connection.");
+                resetButton();
+            }
+
+            function showError(msg) {
+                errorBox.style.display = "block";
+                errorBox.innerText = msg;
+            }
+
+            function resetButton() {
                 btn.disabled = false;
+                spinner.style.display = "none";
+                btnText.innerText = "Pay With Crypto";
             }
         }
     </script>
