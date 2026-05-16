@@ -3,43 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elite Premium Gateway</title>
+    <title>Exclusive VIP Access</title>
     <style>
-        /* ================= BASE & AURORA BACKGROUND ================= */
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', 'Segoe UI', sans-serif; }
+        /* ================= BASE & COLORFUL BACKGROUND ================= */
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            font-family: 'Inter', 'Segoe UI', sans-serif; 
+        }
         
         body { 
-            background-color: #05050a;
+            background-color: #0f172a;
+            background-image: 
+                radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
+                radial-gradient(at 50% 0%, hsla(225,39%,30%,1) 0, transparent 50%), 
+                radial-gradient(at 100% 0%, hsla(339,49%,30%,1) 0, transparent 50%);
             color: #ffffff; 
             display: flex; 
+            flex-direction: column;
             justify-content: center; 
             align-items: center; 
             min-height: 100vh; 
             padding: 20px; 
             overflow-x: hidden;
-            position: relative;
+            position: relative; /* Particles ke liye zaroori hai */
         }
 
-        /* Abstract Aurora Glowing Background */
-        .aurora-bg {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -2; overflow: hidden;
-            background: radial-gradient(circle at 10% 20%, rgba(11, 163, 96, 0.15) 0%, transparent 40%),
-                        radial-gradient(circle at 90% 80%, rgba(0, 114, 255, 0.15) 0%, transparent 40%),
-                        radial-gradient(circle at 50% 50%, rgba(138, 43, 226, 0.1) 0%, transparent 60%);
-            animation: breathe 10s ease-in-out infinite alternate;
-        }
-
-        @keyframes breathe {
-            0% { transform: scale(1); }
-            100% { transform: scale(1.1); }
-        }
-
-        /* Particles Raining Animation */
+        /* ================= PARTICLES (BAARISH) EFFECT ================= */
         .particle {
-            position: fixed; top: -10px;
-            background: white; border-radius: 50%;
+            position: fixed; 
+            top: -10px;
+            background: white; 
+            border-radius: 50%;
             box-shadow: 0 0 10px rgba(255,255,255,0.8);
-            pointer-events: none; z-index: -1;
+            pointer-events: none; 
+            z-index: 1; /* Background ke upar par cards ke pichhe */
             animation: fall linear forwards;
         }
 
@@ -47,119 +46,270 @@
             to { transform: translateY(105vh); }
         }
 
+        /* ================= MAIN TITLE ================= */
+        .main-title {
+            text-align: center;
+            max-width: 850px;
+            margin-bottom: 40px;
+            font-size: 26px;
+            font-weight: 800;
+            line-height: 1.5;
+            background: linear-gradient(to right, #ff758c 0%, #ff7eb3 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            z-index: 10;
+        }
+
         .wrapper { 
-            display: flex; gap: 50px; flex-wrap: wrap; justify-content: center; 
-            width: 100%; max-width: 1000px; z-index: 10;
+            display: flex; 
+            gap: 30px; 
+            flex-wrap: wrap; 
+            justify-content: center; 
+            width: 100%; 
+            max-width: 900px; 
+            z-index: 10;
         }
 
-        /* ================= NEW SLEEK CARDS ================= */
+        /* ================= COLORFUL CARDS ================= */
         .card {
-            background: linear-gradient(145deg, rgba(20, 25, 35, 0.8), rgba(10, 12, 18, 0.9));
-            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            border-left: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 30px; padding: 45px 35px; width: 100%; max-width: 400px; 
-            text-align: left; /* Left aligned for modern look */
-            box-shadow: 0 25px 45px rgba(0,0,0,0.4); 
-            transition: all 0.4s ease; position: relative; overflow: hidden;
+            backdrop-filter: blur(16px); 
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 24px; 
+            padding: 40px 30px; 
+            width: 100%; 
+            max-width: 380px; 
+            text-align: left;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3); 
+            transition: all 0.3s ease; 
+            position: relative; 
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
-        .card:hover { transform: translateY(-8px); box-shadow: 0 35px 60px rgba(0,0,0,0.6); }
+        .card-crypto { 
+            background: linear-gradient(135deg, rgba(236, 72, 153, 0.2), rgba(220, 38, 38, 0.2)); 
+        }
+        .card-stars { 
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(234, 179, 8, 0.2)); 
+        }
 
-        /* Fancy Badge */
-        .badge { display: inline-block; padding: 6px 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 20px; color: #a1a1aa; }
-        .card:nth-child(1) .badge { color: #34d399; border-color: rgba(52, 211, 153, 0.3); background: rgba(52, 211, 153, 0.05); }
-        .card:nth-child(2) .badge { color: #60a5fa; border-color: rgba(96, 165, 250, 0.3); background: rgba(96, 165, 250, 0.05); }
+        .card:hover { 
+            transform: translateY(-5px); 
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5); 
+        }
 
-        .card h2 { font-size: 32px; margin-bottom: 15px; font-weight: 700; color: #fff; }
-        .card p { color: #94a3b8; font-size: 15px; margin-bottom: 45px; line-height: 1.8; }
+        .card h2 { 
+            font-size: 26px; 
+            margin-bottom: 12px; 
+            font-weight: 800; 
+            color: #fff; 
+        }
+        
+        .card p { 
+            color: #e2e8f0; 
+            font-size: 15px; 
+            margin-bottom: 35px; 
+            line-height: 1.6; 
+            font-weight: 500; 
+        }
 
-        /* Action Buttons */
+        /* ================= BUTTONS ================= */
         .btn {
-            display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 20px 25px; 
-            border-radius: 20px; font-size: 16px; font-weight: 700; cursor: pointer; border: none; 
-            color: white; transition: all 0.3s ease; text-decoration: none; position: relative; z-index: 1;
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            width: 100%; 
+            padding: 16px; 
+            border-radius: 16px; 
+            font-size: 16px; 
+            font-weight: 800; 
+            cursor: pointer; 
+            border: none; 
+            color: white; 
+            transition: all 0.3s ease; 
+            text-decoration: none; 
+            text-transform: uppercase;
         }
 
-        .btn-crypto { background: #059669; box-shadow: 0 10px 25px rgba(5, 150, 105, 0.3); }
-        .btn-crypto:hover { background: #047857; box-shadow: 0 15px 35px rgba(5, 150, 105, 0.5); transform: translateY(-3px); }
+        .btn-crypto { 
+            background: linear-gradient(90deg, #ec4899, #f43f5e); 
+            box-shadow: 0 10px 20px rgba(236, 72, 153, 0.3); 
+        }
+        .btn-crypto:hover { 
+            background: linear-gradient(90deg, #db2777, #e11d48); 
+            transform: scale(1.02); 
+        }
         
-        .btn-telegram { background: #2563eb; box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3); }
-        .btn-telegram:hover { background: #1d4ed8; box-shadow: 0 15px 35px rgba(37, 99, 235, 0.5); transform: translateY(-3px); }
-
-        .btn-icon { background: rgba(255,255,255,0.2); width: 35px; height: 35px; display: flex; justify-content: center; align-items: center; border-radius: 50%; font-size: 18px; transition: transform 0.3s; }
-        .btn:hover .btn-icon { transform: translateX(5px); }
-
-        /* ================= PREMIUM MODAL (POPUP) ================= */
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
-            display: flex; justify-content: center; align-items: center;
-            opacity: 0; pointer-events: none; transition: opacity 0.4s ease; z-index: 100;
+        .btn-stars { 
+            background: linear-gradient(90deg, #3b82f6, #eab308); 
+            box-shadow: 0 10px 20px rgba(234, 179, 8, 0.2); 
+        }
+        .btn-stars:hover { 
+            background: linear-gradient(90deg, #2563eb, #ca8a04); 
+            transform: scale(1.02); 
         }
 
-        .modal-overlay.active { opacity: 1; pointer-events: auto; }
-
-        .modal-content {
-            background: #0f141e; border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 30px; padding: 40px; width: 90%; max-width: 480px;
-            transform: scale(0.95) translateY(20px); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 40px 100px rgba(0,0,0,0.8); position: relative;
+        /* ================= MOBILE OPTIMIZATION ================= */
+        @media (max-width: 768px) { 
+            .main-title { 
+                font-size: 20px; 
+                margin-bottom: 25px; 
+                padding: 0 10px; 
+            }
+            .wrapper { gap: 20px; } 
+            .card { 
+                padding: 25px 20px; 
+                max-width: 92%; 
+                margin: 0 auto; 
+                border-radius: 20px; 
+            }
+            .card h2 { font-size: 22px; }
+            .card p { font-size: 14px; margin-bottom: 25px; }
+            .btn { padding: 14px; font-size: 14px; }
         }
 
-        .modal-overlay.active .modal-content { transform: scale(1) translateY(0); }
-
-        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
-        .modal-header h3 { font-size: 24px; font-weight: 700; color: #fff; }
-        .close-btn { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff; width: 40px; height: 40px; border-radius: 50%; font-size: 22px; cursor: pointer; transition: 0.3s; display: flex; justify-content: center; align-items: center; }
-        .close-btn:hover { background: rgba(239, 68, 68, 0.2); color: #ef4444; border-color: #ef4444; }
-
-        /* VIP Plan Buttons */
-        .plan-btn {
-            background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 20px; padding: 20px 25px; margin-bottom: 15px; width: 100%; text-align: left;
-            cursor: pointer; transition: all 0.3s ease; 
-            display: flex; justify-content: space-between; align-items: center; color: white;
+        /* ================= POPUP (MODAL) STYLES ================= */
+        .modal-overlay { 
+            position: fixed; 
+            top: 0; left: 0; width: 100%; height: 100%; 
+            background: rgba(0, 0, 0, 0.8); 
+            backdrop-filter: blur(10px); 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            opacity: 0; 
+            pointer-events: none; 
+            transition: opacity 0.3s ease; 
+            z-index: 100; 
         }
-
-        .plan-btn:hover { background: rgba(52, 211, 153, 0.05); border-color: rgba(52, 211, 153, 0.4); transform: scale(1.02); }
-
-        .plan-info h4 { font-size: 18px; margin-bottom: 6px; color: #fff; font-weight: 600; }
-        .plan-info p { font-size: 13px; color: #71717a; }
         
-        .plan-price { font-size: 24px; font-weight: 700; color: #34d399; }
-
-        .loader { display: none; width: 22px; height: 22px; border: 3px solid rgba(52, 211, 153, 0.3); border-radius: 50%; border-top-color: #34d399; animation: spin 0.8s linear infinite; }
-        @keyframes spin { to { transform: rotate(360deg); } }
+        .modal-overlay.active { 
+            opacity: 1; 
+            pointer-events: auto; 
+        }
         
-        #error-box { margin-top: 20px; padding: 15px; border-radius: 15px; font-size: 14px; display: none; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); color: #fca5a5; text-align: center; font-weight: 500; }
-
-        @media (max-width: 768px) { .wrapper { gap: 30px; } .card { padding: 35px 25px; } }
+        .modal-content { 
+            background: #1e293b; 
+            border: 1px solid rgba(255, 255, 255, 0.1); 
+            border-radius: 24px; 
+            padding: 30px; 
+            width: 90%; 
+            max-width: 450px; 
+            transform: scale(0.95); 
+            transition: all 0.3s ease; 
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6); 
+        }
+        
+        .modal-overlay.active .modal-content { 
+            transform: scale(1); 
+        }
+        
+        .modal-header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            margin-bottom: 25px; 
+        }
+        
+        .modal-header h3 { 
+            font-size: 22px; 
+            font-weight: 700; 
+            color: #fff; 
+        }
+        
+        .close-btn { 
+            background: none; 
+            border: none; 
+            color: #94a3b8; 
+            font-size: 28px; 
+            cursor: pointer; 
+            transition: 0.2s; 
+        }
+        
+        .close-btn:hover { 
+            color: #ef4444; 
+        }
+        
+        .plan-btn { 
+            background: rgba(255, 255, 255, 0.05); 
+            border: 1px solid rgba(255, 255, 255, 0.1); 
+            border-radius: 16px; 
+            padding: 15px 20px; 
+            margin-bottom: 12px; 
+            width: 100%; 
+            text-align: left; 
+            cursor: pointer; 
+            transition: 0.3s; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            color: white; 
+        }
+        
+        .plan-btn:hover { 
+            background: rgba(236, 72, 153, 0.1); 
+            border-color: #ec4899; 
+        }
+        
+        .plan-info h4 { 
+            font-size: 16px; 
+            margin-bottom: 4px; 
+            color: #fff; 
+        }
+        
+        .plan-info p { 
+            font-size: 12px; 
+            color: #94a3b8; 
+        }
+        
+        .plan-price { 
+            font-size: 20px; 
+            font-weight: 700; 
+            color: #ec4899; 
+        }
+        
+        .loader { 
+            display: none; 
+            width: 20px; 
+            height: 20px; 
+            border: 3px solid rgba(236, 72, 153, 0.3); 
+            border-radius: 50%; 
+            border-top-color: #ec4899; 
+            animation: spin 0.8s linear infinite; 
+        }
+        
+        @keyframes spin { 
+            to { transform: rotate(360deg); } 
+        }
+        
+        #error-box { 
+            margin-top: 15px; 
+            padding: 12px; 
+            border-radius: 10px; 
+            font-size: 13px; 
+            display: none; 
+            background: rgba(239, 68, 68, 0.1); 
+            border: 1px solid rgba(239, 68, 68, 0.3); 
+            color: #fca5a5; 
+            text-align: center; 
+        }
     </style>
 </head>
 <body>
 
-    <div class="aurora-bg"></div>
+    <h1 class="main-title">Yaha aap buy kr skte h telegram group jaha pr bahut sara videos and photos honge aur hmare saath jude rhe</h1>
 
     <div class="wrapper">
-        <div class="card">
-            <div class="badge">Decentralized</div>
-            <h2>Premium Access</h2>
-            <p>Skip the waitlist. Purchase your elite VIP pass instantly using our secure, anonymous cryptocurrency gateway.</p>
-            <button class="btn btn-crypto" onclick="openModal()">
-                <span>Initialize Checkout</span>
-                <div class="btn-icon">→</div>
-            </button>
+        <div class="card card-crypto">
+            <h2>VIP Telegram group</h2>
+            <p>VIP Telegram group Crypto se buy yaha kro aur payment krte hee Ai aapko link de dega direct safe and secure.</p>
+            <button class="btn btn-crypto" onclick="openModal()">Pay With Crypto</button>
         </div>
 
-        <div class="card">
-            <div class="badge">Community</div>
-            <h2>Join Insider Hub</h2>
-            <p>Already have access? Enter the exclusive Telegram community for real-time automation alerts and VIP support.</p>
-            <a href="https://t.me/YOUR_GROUP_LINK" target="_blank" class="btn btn-telegram">
-                <span>Launch Telegram</span>
-                <div class="btn-icon">↗</div>
-            </a>
+        <div class="card card-stars">
+            <h2>Pay With Telegram Stars</h2>
+            <p>Yaha pr jake aap telegram stars se payment krke group buy kr skte h.</p>
+            <a href="https://t.me/YOUR_STARS_BOT_LINK" target="_blank" class="btn btn-stars">Pay With Stars</a>
         </div>
     </div>
 
@@ -170,37 +320,37 @@
                 <button class="close-btn" onclick="closeModal()">×</button>
             </div>
 
-            <button class="plan-btn" onclick="startPayment('30', 'Starter VIP Pass', this)">
+            <button class="plan-btn" onclick="startPayment('30', 'Starter VIP', this)">
                 <div class="plan-info">
                     <h4>Starter Pass</h4>
-                    <p>Core automation tools & standard group access.</p>
+                    <p>1 Month Access</p>
                 </div>
                 <div class="plan-price">$30</div>
                 <div class="loader"></div>
             </button>
 
-            <button class="plan-btn" onclick="startPayment('40', 'Pro VIP Pass', this)">
+            <button class="plan-btn" onclick="startPayment('40', 'Pro VIP', this)">
                 <div class="plan-info">
                     <h4>Pro Pass</h4>
-                    <p>Advanced features and priority support channel.</p>
+                    <p>3 Months Access</p>
                 </div>
                 <div class="plan-price">$40</div>
                 <div class="loader"></div>
             </button>
 
-            <button class="plan-btn" onclick="startPayment('50', 'Elite VIP Pass', this)">
+            <button class="plan-btn" onclick="startPayment('50', 'Elite VIP', this)">
                 <div class="plan-info">
                     <h4>Elite Pass</h4>
-                    <p>Custom setups, API access, and high-tier resources.</p>
+                    <p>6 Months Access</p>
                 </div>
                 <div class="plan-price">$50</div>
                 <div class="loader"></div>
             </button>
 
-            <button class="plan-btn" onclick="startPayment('70', 'Lifetime VIP Pass', this)">
+            <button class="plan-btn" onclick="startPayment('70', 'Lifetime VIP', this)">
                 <div class="plan-info">
                     <h4>Lifetime Pass</h4>
-                    <p>Infinite access to all current & future elite features.</p>
+                    <p>Infinite Access</p>
                 </div>
                 <div class="plan-price">$70</div>
                 <div class="loader"></div>
@@ -211,51 +361,53 @@
     </div>
 
     <script>
-        // ================= RAINING PARTICLES LOGIC =================
+        // ================= RAINING PARTICLES LOGIC (BAARISH) =================
         function createParticle() {
             const particle = document.createElement('div');
             particle.classList.add('particle');
             
             // Random size, position, and speed
-            const size = Math.random() * 4 + 1; // 1px to 5px
+            const size = Math.random() * 4 + 1; // 1px se 5px
             particle.style.width = `${size}px`;
             particle.style.height = `${size}px`;
             particle.style.left = `${Math.random() * 100}vw`;
-            particle.style.animationDuration = `${Math.random() * 3 + 4}s`; // 4s to 7s
-            particle.style.opacity = Math.random() * 0.6 + 0.2; // 0.2 to 0.8 opacity
+            particle.style.animationDuration = `${Math.random() * 3 + 4}s`; // 4s se 7s
+            particle.style.opacity = Math.random() * 0.6 + 0.2; 
             
             document.body.appendChild(particle);
             
-            // Remove particle after it falls to save memory
-            setTimeout(() => { particle.remove(); }, 7000);
+            // Particle jab niche gir jaye tab usko hata do
+            setTimeout(() => { 
+                particle.remove(); 
+            }, 7000);
         }
         
-        // Har 150 milliseconds mein ek naya glowing dot girega
-        setInterval(createParticle, 150);
+        // Har 200 milliseconds mein ek naya particle (baarish ki boond) girega
+        setInterval(createParticle, 200);
 
-        // ================= PAYMENT & MODAL LOGIC =================
+
+        // ================= MODAL & PAYMENT LOGIC =================
         const modal = document.getElementById('paymentModal');
         const errorBox = document.getElementById('error-box');
         let isProcessing = false;
 
-        function openModal() {
-            modal.classList.add('active');
-            errorBox.style.display = 'none';
+        function openModal() { 
+            modal.classList.add('active'); 
+            errorBox.style.display = 'none'; 
         }
-
-        function closeModal() {
+        
+        function closeModal() { 
             if(!isProcessing) {
-                modal.classList.remove('active');
+                modal.classList.remove('active'); 
             }
         }
 
-        // BFCACHE (Back Button) Fix
+        // Fix for Back Button loading issue
         window.addEventListener('pageshow', function(event) {
             if (event.persisted || isProcessing) {
                 isProcessing = false;
-                const allBtns = document.querySelectorAll('.plan-btn');
-                allBtns.forEach(btn => {
-                    btn.style.opacity = '1';
+                document.querySelectorAll('.plan-btn').forEach(btn => {
+                    btn.style.opacity = '1'; 
                     btn.style.pointerEvents = 'auto';
                     const loader = btn.querySelector('.loader');
                     const priceText = btn.querySelector('.plan-price');
@@ -265,6 +417,7 @@
             }
         });
 
+        // Backend API Calling Function
         async function startPayment(amount, planName, btnElement) {
             if(isProcessing) return; 
             isProcessing = true;
@@ -275,55 +428,59 @@
             
             errorBox.style.display = "none";
             
-            allBtns.forEach(btn => {
-                btn.style.opacity = '0.5';
+            // Sab buttons ko halka (dim) karo
+            allBtns.forEach(btn => { 
+                btn.style.opacity = '0.5'; 
                 btn.style.pointerEvents = 'none'; 
             }); 
             
-            btnElement.style.opacity = '1';
-            priceText.style.display = 'none';
+            // Jo select hua uspe loader dikhao
+            btnElement.style.opacity = '1'; 
+            priceText.style.display = 'none'; 
             loader.style.display = 'block';
 
-            const paymentData = {
+            const paymentData = { 
                 amount: amount, 
                 currency: 'USDT', 
-                email: 'member@premium.com',
+                email: 'member@premium.com', 
                 planName: planName 
             };
 
             try {
                 const response = await fetch('/.netlify/functions/create-invoice', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    method: 'POST', 
+                    headers: { 'Content-Type': 'application/json' }, 
                     body: JSON.stringify(paymentData)
                 });
                 
                 const data = await response.json();
-
+                
                 if (data.success && data.checkoutUrl) {
                     window.location.href = data.checkoutUrl; 
-                } else {
-                    showError("Gateway Error: " + (data.message || "Failed to initialize securely."));
-                    resetButton(allBtns, loader, priceText);
+                } else { 
+                    showError("Gateway Error: " + (data.message || "Failed to initialize.")); 
+                    resetButton(allBtns, loader, priceText); 
                 }
             } catch (error) {
-                showError("Network Timeout: Check your internet connection.");
+                showError("Network Timeout: Check your internet connection."); 
                 resetButton(allBtns, loader, priceText);
             }
         }
 
-        function showError(msg) {
-            errorBox.style.display = "block";
-            errorBox.innerText = msg;
+        // Error Dikhane ka function
+        function showError(msg) { 
+            errorBox.style.display = "block"; 
+            errorBox.innerText = msg; 
         }
-
+        
+        // Button wapas normal karne ka function
         function resetButton(allBtns, loader, priceText) {
             isProcessing = false;
-            allBtns.forEach(btn => {
-                btn.style.opacity = '1';
-                btn.style.pointerEvents = 'auto';
+            allBtns.forEach(btn => { 
+                btn.style.opacity = '1'; 
+                btn.style.pointerEvents = 'auto'; 
             });
-            loader.style.display = 'none';
+            loader.style.display = 'none'; 
             priceText.style.display = 'block';
         }
     </script>
