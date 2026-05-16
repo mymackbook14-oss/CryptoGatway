@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Membership</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        
+        body { background: #0b0f19; color: #fff; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        
+        .wrapper { display: flex; gap: 40px; flex-wrap: wrap; justify-content: center; padding: 20px; }
+        
+        .card {
+            background: #151b2b;
+            border: 1px solid #2a3441;
+            border-radius: 16px;
+            padding: 40px 30px;
+            width: 340px;
+            text-align: center;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+        }
+        
+        .card h2 { font-size: 22px; margin-bottom: 15px; font-weight: 600; }
+        .card p { color: #8b949e; font-size: 15px; margin-bottom: 30px; line-height: 1.6; }
+        
+        .btn {
+            display: block; width: 100%; padding: 14px; border-radius: 8px; font-size: 16px; font-weight: 600;
+            cursor: pointer; border: none; text-decoration: none; color: white; transition: 0.3s;
+        }
+        
+        .btn-crypto { background: #10b981; }
+        .btn-crypto:hover { background: #059669; }
+        
+        .btn-telegram { background: #3b82f6; }
+        .btn-telegram:hover { background: #2563eb; }
+        
+        #status { margin-top: 15px; font-size: 14px; color: #f59e0b; display: none; }
+    </style>
+</head>
+<body>
+
+    <div class="wrapper">
+        <div class="card">
+            <h2>Buy Premium</h2>
+            <p>Pay securely via Plisio. We accept USDT, TON, and other major cryptocurrencies.</p>
+            <button class="btn btn-crypto" id="payBtn" onclick="startPayment()">Pay with Crypto</button>
+            <p id="status">Generating Invoice Please wait...</p>
+        </div>
+
+        <div class="card">
+            <h2>Join Community</h2>
+            <p>Already a member or want to connect? Join our exclusive Telegram group.</p>
+            <a href="https://t.me/YOUR_GROUP_LINK" target="_blank" class="btn btn-telegram">Join Telegram</a>
+        </div>
+    </div>
+
+    <script>
+        async function startPayment() {
+            const btn = document.getElementById('payBtn');
+            const status = document.getElementById('status');
+            
+            btn.disabled = true;
+            status.style.display = "block";
+
+            try {
+                const response = await fetch('/.netlify/functions/create-invoice');
+                const data = await response.json();
+
+                if (data.invoiceUrl) {
+                    window.location.href = data.invoiceUrl; 
+                } else {
+                    status.innerText = "Error! Try again.";
+                    status.style.color = "red";
+                    btn.disabled = false;
+                }
+            } catch (error) {
+                status.innerText = "Payment gateway failed.";
+                btn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>
